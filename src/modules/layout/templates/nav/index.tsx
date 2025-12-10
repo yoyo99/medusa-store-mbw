@@ -25,7 +25,7 @@ export default async function Nav() {
               className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              <span className="text-xl font-bold tracking-widest text-green-900">MBWOOD</span>
             </LocalizedClientLink>
           </div>
 
