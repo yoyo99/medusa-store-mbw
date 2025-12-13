@@ -8,9 +8,9 @@
     "medusa-storefront"
   ],
   "scripts": {
-    "dev": "next dev --turbopack -p 8000",
+    "dev": "sh -c 'next dev --turbopack -H 0.0.0.0 -p ${PORT:-3000}'",
     "build": "next build",
-    "start": "next start -H 0.0.0.0 -p 3000",
+    "start": "sh -c 'next start -H 0.0.0.0 -p ${PORT:-3000}'",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build"
   },
