@@ -1,54 +1,90 @@
-import { Github } from "@medusajs/icons"
 import { Button, Heading } from "@medusajs/ui"
 
 const Hero = () => {
   return (
-    <div className="h-[85vh] w-full border-b border-ui-border-base relative bg-stone-900 overflow-hidden">
-      {/* Background Image / Overlay */}
-      <div className="absolute inset-0 z-0">
-        {/* Placeholder for high-quality wood/garden image */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542601906990-24d4c16419d0?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
+    <section className="relative w-full border-b border-ui-border-base overflow-hidden">
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?q=80&w=2400&auto=format&fit=crop')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/70" />
       </div>
 
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-8 px-4">
-        <span className="flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-6 duration-1000">
+      <div className="relative content-container py-20 small:py-28">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-white/90 backdrop-blur-sm border border-white/15">
+            <span className="text-small-regular">Bois de chauffage</span>
+            <span className="mx-2 text-white/40">•</span>
+            <span className="text-small-regular">Jardinerie</span>
+          </div>
+
           <Heading
             level="h1"
-            className="text-5xl md:text-7xl leading-tight text-white font-bold tracking-tight drop-shadow-lg"
+            className="mt-5 text-4xl small:text-5xl md:text-6xl leading-tight text-white font-bold tracking-tight"
           >
-            L'Excellence du Bois <br />
-            <span className="text-green-500">Pour Votre Extérieur</span>
+            Transformez votre jardin en <span className="text-mbwood-green-400">paradis vert</span>
           </Heading>
-          
+
           <Heading
             level="h2"
-            className="text-xl md:text-2xl leading-8 text-stone-200 font-light max-w-2xl mx-auto mt-4 drop-shadow-md"
+            className="mt-4 text-large-regular md:text-xl text-white/85 max-w-2xl"
           >
-            Déstockage exclusif de bois de qualité supérieure. Terrasses, bardages et aménagements durables à prix direct dépôt.
+            Votre expert en chauffage au bois & énergie durable. Livraison rapide en Île-de-France.
           </Heading>
-        </span>
 
-        <div className="flex gap-4 mt-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
-          <a href="/store">
-            <Button
-              variant="secondary"
-              className="bg-green-600 hover:bg-green-700 text-white border-none px-8 py-3 h-auto text-lg rounded-full font-medium transition-all shadow-lg shadow-green-900/20 hover:scale-105"
+          <div className="mt-8 flex flex-col small:flex-row gap-3">
+            <a href="/store">
+              <Button
+                variant="secondary"
+                className="bg-mbwood-green-600 hover:bg-mbwood-green-700 text-white border-none px-7 py-3 h-auto rounded-full font-medium shadow-lg shadow-black/20"
+              >
+                Acheter des produits
+              </Button>
+            </a>
+
+            <a href="/store">
+              <Button
+                variant="transparent"
+                className="text-white border border-white/25 hover:border-white/45 hover:bg-white/10 px-7 py-3 h-auto rounded-full font-medium"
+              >
+                Voir toutes les catégories
+              </Button>
+            </a>
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-2">
+            <a
+              href="/store"
+              className="inline-flex items-center rounded-full bg-white/10 hover:bg-white/15 text-white/90 px-4 py-2 border border-white/15 backdrop-blur-sm text-small-regular"
             >
-              Voir les Offres
-            </Button>
-          </a>
-          <a href="/about">
-             <Button
-              variant="transparent"
-              className="text-white hover:text-green-400 border border-white/20 hover:border-green-400/50 hover:bg-white/5 px-8 py-3 h-auto text-lg rounded-full font-medium transition-all backdrop-blur-sm"
+              Pellets
+            </a>
+            <a
+              href="/store"
+              className="inline-flex items-center rounded-full bg-white/10 hover:bg-white/15 text-white/90 px-4 py-2 border border-white/15 backdrop-blur-sm text-small-regular"
             >
-              Notre Concept
-            </Button>
-          </a>
+              Bûches
+            </a>
+            <a
+              href="/store"
+              className="inline-flex items-center rounded-full bg-white/10 hover:bg-white/15 text-white/90 px-4 py-2 border border-white/15 backdrop-blur-sm text-small-regular"
+            >
+              Bois d'allumage
+            </a>
+            <a
+              href="/store"
+              className="inline-flex items-center rounded-full bg-white/10 hover:bg-white/15 text-white/90 px-4 py-2 border border-white/15 backdrop-blur-sm text-small-regular"
+            >
+              Jardinerie
+            </a>
+            <a
+              href="/store"
+              className="inline-flex items-center rounded-full bg-white/10 hover:bg-white/15 text-white/90 px-4 py-2 border border-white/15 backdrop-blur-sm text-small-regular"
+            >
+              Promotions
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -39,21 +39,21 @@ export default async function Nav() {
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
             <div className="hidden small:flex items-center gap-x-6 h-full">
               <LocalizedClientLink
-                className="hover:text-ui-fg-base"
+                className="hover:text-mbwood-green-700"
                 href="/account"
                 data-testid="nav-account-link"
               >
-                Account
+                Compte
               </LocalizedClientLink>
             </div>
             <Suspense
               fallback={
                 <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
+                  className="hover:text-mbwood-green-700 flex gap-2"
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  Cart (0)
+                  Panier (0)
                 </LocalizedClientLink>
               }
             >
