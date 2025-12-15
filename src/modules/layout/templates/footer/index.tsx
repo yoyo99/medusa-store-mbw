@@ -1,10 +1,12 @@
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
+import { getLocale, t } from "@lib/i18n"
 import { Text, clx } from "@medusajs/ui"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export default async function Footer() {
+  const locale = await getLocale()
   const { collections } = await listCollections({
     fields: "*products",
   })
@@ -26,7 +28,7 @@ export default async function Footer() {
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">
-                  Catégories
+                  {t(locale, "footer.categories")}
                 </span>
                 <ul
                   className="grid grid-cols-1 gap-2"
@@ -84,7 +86,7 @@ export default async function Footer() {
             {collections && collections.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
+                  {t(locale, "footer.collections")}
                 </span>
                 <ul
                   className={clx(
@@ -108,21 +110,23 @@ export default async function Footer() {
               </div>
             )}
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Informations</span>
+              <span className="txt-small-plus txt-ui-fg-base">
+                {t(locale, "footer.informations")}
+              </span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
                   <LocalizedClientLink className="hover:text-mbwood-green-700" href="/store">
-                    Boutique
+                    {t(locale, "footer.store")}
                   </LocalizedClientLink>
                 </li>
                 <li>
                   <LocalizedClientLink className="hover:text-mbwood-green-700" href="/account">
-                    Compte
+                    {t(locale, "footer.account")}
                   </LocalizedClientLink>
                 </li>
                 <li>
                   <LocalizedClientLink className="hover:text-mbwood-green-700" href="/cart">
-                    Panier
+                    {t(locale, "footer.cart")}
                   </LocalizedClientLink>
                 </li>
               </ul>
@@ -131,7 +135,7 @@ export default async function Footer() {
         </div>
         <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
           <Text className="txt-compact-small">
-            © {new Date().getFullYear()} MBWood. Tous droits réservés.
+            © {new Date().getFullYear()} MBWood. {t(locale, "footer.rights")}
           </Text>
         </div>
       </div>

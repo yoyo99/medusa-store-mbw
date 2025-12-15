@@ -1,13 +1,17 @@
-import { Suspense } from "react";
-import { listRegions } from "@lib/data/regions";
-import { StoreRegion } from "@medusajs/types";
-import LocalizedClientLink from "@modules/common/components/localized-client-link";
-import CartButton from "@modules/layout/components/cart-button";
-import SideMenu from "@modules/layout/components/side-menu";
-import Image from "next/image";
+import { Suspense } from "react"
+
+import { getLocale, t } from "@lib/i18n"
+import { listRegions } from "@lib/data/regions"
+import { StoreRegion } from "@medusajs/types"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import CartButton from "@modules/layout/components/cart-button"
+import SideMenu from "@modules/layout/components/side-menu"
+import LanguageSwitch from "@modules/layout/components/language-switch"
+import Image from "next/image"
 
 export default async function Nav() {
-  const regions = await listRegions().then((regions: StoreRegion[]) => regions);
+  const locale = await getLocale()
+  const regions = await listRegions().then((regions: StoreRegion[]) => regions)
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
@@ -15,7 +19,18 @@ export default async function Nav() {
         <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
           <div className="flex-1 basis-0 h-full flex items-center">
             <div className="h-full">
-              <SideMenu regions={regions} />
+              <SideMenu
+                regions={regions}
+                labels={{
+                  menu: t(locale, "nav.menu"),
+                  home: t(locale, "side.home"),
+                  store: t(locale, "side.store"),
+                  account: t(locale, "side.account"),
+                  cart: t(locale, "side.cart"),
+                  shippingTo: t(locale, "shipping.to"),
+                  rights: t(locale, "footer.rights"),
+                }}
+              />
             </div>
           </div>
 
@@ -43,8 +58,11 @@ export default async function Nav() {
                 href="/account"
                 data-testid="nav-account-link"
               >
-                Compte
+                {t(locale, "nav.account")}
               </LocalizedClientLink>
+            </div>
+            <div className="hidden small:flex items-center h-full">
+              <LanguageSwitch locale={locale} />
             </div>
             <Suspense
               fallback={
@@ -53,7 +71,7 @@ export default async function Nav() {
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  Panier (0)
+                  {t(locale, "nav.cart")} (0)
                 </LocalizedClientLink>
               }
             >
@@ -63,5 +81,5 @@ export default async function Nav() {
         </nav>
       </header>
     </div>
-  );
+  )
 }

@@ -24,30 +24,33 @@ type CountryOption = {
 type CountrySelectProps = {
   toggleState: StateType
   regions: HttpTypes.StoreRegion[]
+  label?: string
 }
 
-const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
-  const [current, setCurrent] = useState<
-    | { country: string | undefined; region: string; label: string | undefined }
-    | undefined
-  >(undefined)
+const CountrySelect = ({ toggleState, regions, label }: CountrySelectProps) => {
+  const [current, setCurrent] = useState<CountryOption | undefined>(undefined)
 
   const { countryCode } = useParams()
   const currentPath = usePathname().split(`/${countryCode}`)[1]
 
   const { state, close } = toggleState
 
-  const options = useMemo(() => {
-    return regions
-      ?.map((r) => {
-        return r.countries?.map((c) => ({
-          country: c.iso_2,
-          region: r.id,
-          label: c.display_name,
-        }))
-      })
-      .flat()
-      .sort((a, b) => (a?.label ?? "").localeCompare(b?.label ?? ""))
+  const options = useMemo<CountryOption[]>(() => {
+    return (
+      regions
+        ?.map((r) => {
+          return (
+            r.countries
+              ?.filter((c) => !!c.iso_2)
+              .map((c) => ({
+                country: String(c.iso_2),
+                region: r.id,
+                label: String(c.display_name ?? c.iso_2),
+              })) ?? []
+          )
+        })
+        .flat() ?? []
+    ).sort((a, b) => (a.label ?? "").localeCompare(b.label ?? ""))
   }, [regions])
 
   useEffect(() => {
@@ -75,7 +78,7 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
       >
         <ListboxButton className="py-1 w-full">
           <div className="txt-compact-small flex items-start gap-x-2">
-            <span>Shipping to:</span>
+            <span>{label ?? "Livraison vers :"}</span>
             {current && (
               <span className="txt-compact-small flex items-center gap-x-2">
                 {/* @ts-ignore */}

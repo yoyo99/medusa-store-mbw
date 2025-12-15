@@ -9,15 +9,41 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CountrySelect from "../country-select"
 import { HttpTypes } from "@medusajs/types"
 
-const SideMenuItems = {
-  Accueil: "/",
-  Boutique: "/store",
-  Compte: "/account",
-  Panier: "/cart",
+type SideMenuLabels = {
+  menu: string
+  home: string
+  store: string
+  account: string
+  cart: string
+  shippingTo: string
+  rights: string
 }
 
-const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
+const defaultLabels: SideMenuLabels = {
+  menu: "Menu",
+  home: "Accueil",
+  store: "Boutique",
+  account: "Compte",
+  cart: "Panier",
+  shippingTo: "Livraison vers :",
+  rights: "Tous droits réservés.",
+}
+
+const SideMenu = ({
+  regions,
+  labels = defaultLabels,
+}: {
+  regions: HttpTypes.StoreRegion[] | null
+  labels?: SideMenuLabels
+}) => {
   const toggleState = useToggleState()
+
+  const items: Record<string, string> = {
+    [labels.home]: "/",
+    [labels.store]: "/store",
+    [labels.account]: "/account",
+    [labels.cart]: "/cart",
+  }
 
   return (
     <div className="h-full">
@@ -30,7 +56,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                   data-testid="nav-menu-button"
                   className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
                 >
-                  Menu
+                  {labels.menu}
                 </Popover.Button>
               </div>
 
@@ -63,7 +89,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
-                      {Object.entries(SideMenuItems).map(([name, href]) => {
+                      {Object.entries(items).map(([name, href]) => {
                         return (
                           <li key={name}>
                             <LocalizedClientLink
@@ -88,6 +114,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                           <CountrySelect
                             toggleState={toggleState}
                             regions={regions}
+                            label={labels.shippingTo}
                           />
                         )}
                         <ArrowRightMini
@@ -98,7 +125,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} MBWood. Tous droits réservés.
+                        © {new Date().getFullYear()} MBWood. {labels.rights}
                       </Text>
                     </div>
                   </div>
