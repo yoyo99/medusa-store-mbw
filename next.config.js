@@ -1,31 +1,45 @@
-const checkEnvVariables = require("./check-env-variables")
+const checkEnvVariables = require("./check-env-variables");
 
-checkEnvVariables()
+// En local : on vérifie les variables ENV
+// En build Coolify/Docker : on n'interrompt PAS la compilation
+if (process.env.CI !== "true") {
+  checkEnvVariables();
+}
 
-/**
- * Medusa Cloud-related environment variables
- */
-const S3_HOSTNAME = process.env.MEDUSA_CLOUD_S3_HOSTNAME
-const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
+const S3_HOSTNAME = process.env.MEDUSA_CLOUD_S3_HOSTNAME;
+const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME;
 
 /**
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  output: 'standalone',
+  output: "standalone",
   reactStrictMode: true,
+
+  // Optimisations serveur Next.js 15 — fortement recommandées
+  experimental: {
+    serverMinification: true,
+    optimizePackageImports: ["lodash"],
+  },
+
   logging: {
     fetches: {
       fullUrl: true,
     },
   },
+
   eslint: {
     ignoreDuringBuilds: true,
   },
+
   typescript: {
     ignoreBuildErrors: true,
   },
+
   images: {
+    // ❗ Important pour éviter les erreurs d'optimisation d'images en Docker
+    unoptimized: true,
+
     remotePatterns: [
       {
         protocol: "http",
@@ -54,6 +68,6 @@ const nextConfig = {
         : []),
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
