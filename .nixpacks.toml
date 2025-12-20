@@ -1,3 +1,6 @@
+[stack]
+id = "node"
+
 [phases.setup]
 nixPkgs = ["nodejs_22"]
 
