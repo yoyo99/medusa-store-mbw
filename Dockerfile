@@ -5,7 +5,7 @@ FROM node:22-alpine AS base
 FROM base AS deps
 WORKDIR /app
 COPY package.json yarn.lock* package-lock.json* ./
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 # Builder
 FROM base AS builder
@@ -37,6 +37,6 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT=3000
-ENV HOSTNAME=0.0.0.0
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
