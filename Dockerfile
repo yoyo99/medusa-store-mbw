@@ -8,9 +8,7 @@ WORKDIR /app
 COPY package.json yarn.lock* ./
 RUN npm install
 
-# Copie les fichiers de configuration
-COPY .env ./
-COPY medusa-config.js ./
+
 
 # Copie le reste des fichiers
 COPY . .
