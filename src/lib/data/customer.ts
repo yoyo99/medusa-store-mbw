@@ -15,22 +15,30 @@ import {
   setAuthToken,
 } from "./cookies"
 
+// --- DÉBUT DE LA MODIFICATION ---
 export const retrieveCustomer =
   async (): Promise<HttpTypes.StoreCustomer | null> => {
     const authHeaders = await getAuthHeaders()
 
-    if (!authHeaders) return null
-
-    const headers = {
-      ...authHeaders,
+    // S'il n'y a pas de token d'authentification, on sait déjà que l'utilisateur n'est pas connecté.
+    // Pas besoin de faire un appel API inutile.
+    if (!authHeaders) {
+      return null
     }
 
-    const next = {
-      ...(await getCacheOptions("customers")),
-    }
+    try {
+      const headers = {
+        ...authHeaders,
+      }
 
-    return await sdk.client
-      .fetch<{ customer: HttpTypes.StoreCustomer }>(`/store/customers/me`, {
+      const next = {
+        ...(await getCacheOptions("customers")),
+      }
+
+      // On tente de faire l'appel API
+      const { customer } = await sdk.client.fetch<{
+        customer: HttpTypes.StoreCustomer
+      }>(`/store/customers/me`, {
         method: "GET",
         query: {
           fields: "*orders",
@@ -39,9 +47,23 @@ export const retrieveCustomer =
         next,
         cache: "force-cache",
       })
-      .then(({ customer }) => customer)
-      .catch(() => null)
+
+      // Si l'appel réussit, on retourne le client
+      return customer
+    } catch (error) {
+      // Si une erreur se produit (401, 500, etc.), on la capture ici.
+      // On l'affiche dans les logs du serveur pour le débogage.
+      console.error(
+        "Erreur lors de la récupération du client (probablement non connecté) :",
+        error
+      )
+
+      // On retourne null pour indiquer que le client n'a pas pu être récupéré.
+      // Cela empêche l'application de planter.
+      return null
+    }
   }
+// --- FIN DE LA MODIFICATION ---
 
 export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer) => {
   const headers = {

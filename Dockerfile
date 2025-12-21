@@ -1,33 +1,25 @@
-# 1. Build stage
-FROM node:20 AS builder
+# Dockerfile pour Medusa Storefront
+FROM node:22-alpine
 
+# Crée le répertoire de travail
 WORKDIR /app
 
-ENV NEXT_TELEMETRY_DISABLED=1
+# Installe les dépendances
+COPY package.json yarn.lock* ./
+RUN npm install
 
-# Installer les dépendances
-COPY package*.json ./
-RUN npm ci
+# Copie les fichiers de configuration
+COPY .env ./
+COPY medusa-config.js ./
 
-# Copier tout le projet
+# Copie le reste des fichiers
 COPY . .
 
-# Compiler l'application en mode standalone
+# Construit l'application
 RUN npm run build
 
-# 2. Run stage
-FROM node:20 AS runner
-
-WORKDIR /app
-
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-
-# Copier la build standalone
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/static ./.next/static
-
+# Expose le port
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+# Commande pour démarrer l'application
+CMD ["npm", "run", "start"]
